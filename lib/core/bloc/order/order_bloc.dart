@@ -23,7 +23,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       }
     }
     
-    else if (event is LoadDetailOrder) {
+    if (event is LoadDetailOrder) {
       yield OrderLoading();
       try {
         var response = await api.detailOrder(event.id);
@@ -34,44 +34,26 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       }
     }
     
-    else if (event is CreateOrder) {
+    if (event is ConfirmOrder) {
       yield OrderLoading();
       try {
-        await api.createOrder(event.data);
-        yield OrderCreated();
+        await api.confirmationOrder(
+          id: event.id,
+          status: event.status,
+          cancelReason: event.cancelReason
+        );
+        yield OrderConfirmated();
       } catch (error) {
         print("ERROR: $error");
         yield OrderFailure(error: error.toString());
       }
     }
     
-    else if (event is CancelOrder) {
+    if (event is ReceiveOrder) {
       yield OrderLoading();
       try {
-        await api.cancelOrder(id: event.id, cancelReason: event.cancelReason);
-        yield OrderCanceled();
-      } catch (error) {
-        print("ERROR: $error");
-        yield OrderFailure(error: error.toString());
-      }
-    }
-    
-    else if (event is FinishTransaction) {
-      yield OrderLoading();
-      try {
-        await api.transactionDone(event.id);
-        yield TransactionFinished();
-      } catch (error) {
-        print("ERROR: $error");
-        yield OrderFailure(error: error.toString());
-      }
-    }
-    
-    else if (event is ReviewOrder) {
-      yield OrderLoading();
-      try {
-        await api.sendReviews(rating: event.rating, review: event.review, id: event.id);
-        yield OrderReviewed();
+        await api.receiveOrder(event.order, event.proofItemReceived);
+        yield OrderReceived();
       } catch (error) {
         print("ERROR: $error");
         yield OrderFailure(error: error.toString());

@@ -46,7 +46,14 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       child: Scaffold(
         body: Center(
-          child: TitleText("KEDATON KOMPUTER")
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/logo.jpeg", height: 100),
+              SizedBox(height: 32),
+              TitleText("KEDATON KOMPUTER"),
+            ],
+          )
         )
       ),
     );

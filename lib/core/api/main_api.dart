@@ -17,7 +17,8 @@ class MainApi {
   Future<String> postRequest({
     String url,
     Object body,
-    bool useAuth = false
+    bool useAuth = false,
+    bool isFormData = false
   }) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) throw "no_internet";
@@ -30,10 +31,11 @@ class MainApi {
     try {
       final response = await dio.post<String>(
         url, 
-        data: jsonEncode(body),
+        data: isFormData ? FormData.fromMap(body) : jsonEncode(body),
         options: Options(
           headers: this.headers,
-          validateStatus: (status) => true
+          validateStatus: (status) => true,
+          contentType: isFormData ? Headers.formUrlEncodedContentType : Headers.jsonContentType
         )
       );
       print("RESPONSE_CODE: " + response.statusCode.toString());
@@ -54,8 +56,9 @@ class MainApi {
   
   Future<String> patchRequest({
     String url,
-    Object body,
-    bool useAuth = false
+    dynamic body,
+    bool useAuth = false,
+    bool isFormData = false
   }) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) throw "no_internet";
@@ -68,10 +71,11 @@ class MainApi {
     try {
       final response = await dio.patch<String>(
         url,
-        data: body,
+        data: isFormData ? FormData.fromMap(body) : jsonEncode(body),
         options: Options(
           headers: this.headers,
-          validateStatus: (status) => true
+          validateStatus: (status) => true,
+          contentType: isFormData ? Headers.formUrlEncodedContentType : Headers.jsonContentType
         )
       );
       print("RESPONSE_CODE: " + response.statusCode.toString());

@@ -33,7 +33,7 @@ class _CancelOrderPageState extends State<CancelOrderPage> {
     return BlocListener(
       cubit: widget.bloc,
       listener: (context, state) {
-        if(state is OrderCanceled) {
+        if(state is OrderConfirmated) {
           Navigator.pop(context);
         } else if(state is OrderFailure) {
           setState(() {
@@ -44,7 +44,7 @@ class _CancelOrderPageState extends State<CancelOrderPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Cancel Order")
+          title: Text("Tolak Orderan")
         ),
         body: SafeArea(
           child: Column(
@@ -62,7 +62,7 @@ class _CancelOrderPageState extends State<CancelOrderPage> {
               Padding(
                 padding: EdgeInsets.all(16),
                 child: RaisedButtonPrimary(
-                  text: "Cancel Order",
+                  text: "Tolak Orderan",
                   isLoading: isLoading,
                   onPressed: isLoading ? null : () {
                     if(controller.text == null || controller.text == ""){
@@ -71,7 +71,11 @@ class _CancelOrderPageState extends State<CancelOrderPage> {
                       setState(() {
                         isLoading = true;
                       });
-                      widget.bloc.add(CancelOrder(id: widget.order.id, cancelReason: controller.text));
+                      widget.bloc.add(ConfirmOrder(
+                        id: widget.order.id, 
+                        cancelReason: controller.text,
+                        status: "terima"
+                      ));
                     }
                   }
                 ),

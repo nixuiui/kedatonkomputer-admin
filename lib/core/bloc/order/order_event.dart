@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:kedatonkomputer/core/models/order_post_model.dart';
 
@@ -49,41 +51,30 @@ class CreateOrder extends OrderEvent {
   List<Object> get props => [data];
 }
 
-class CancelOrder extends OrderEvent {
+class ConfirmOrder extends OrderEvent {
   final String id;
+  final String status;
   final String cancelReason;
 
-  const CancelOrder({
+  const ConfirmOrder({
     this.id,
+    this.status,
     this.cancelReason,
   });
 
   @override
-  List<Object> get props => [id, cancelReason];
+  List<Object> get props => [id, status, cancelReason];
 }
 
-class ReviewOrder extends OrderEvent {
-  final String id;
-  final String review;
-  final int rating;
+class ReceiveOrder extends OrderEvent {
+  final String order;
+  final File proofItemReceived;
 
-  const ReviewOrder({
-    this.id,
-    this.review,
-    this.rating,
+  const ReceiveOrder({
+    this.order,
+    this.proofItemReceived,
   });
 
   @override
-  List<Object> get props => [id, review, rating];
-}
-
-class FinishTransaction extends OrderEvent {
-  final String id;
-
-  const FinishTransaction({
-    this.id,
-  });
-
-  @override
-  List<Object> get props => [id];
+  List<Object> get props => [order, proofItemReceived];
 }

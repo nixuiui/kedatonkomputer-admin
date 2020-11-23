@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:indonesia/indonesia.dart';
 import 'package:kedatonkomputer/core/models/product_model.dart';
 import 'package:kedatonkomputer/helper/app_consts.dart';
-import 'package:kedatonkomputer/ui/screens/product_detail.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
 import 'package:kedatonkomputer/ui/widget/text.dart';
 
@@ -21,9 +20,7 @@ class ProductItem extends StatelessWidget {
     return Box(
       boxShadow: [AppBoxShadow.type3],
       borderRadius: 8,
-      onPressed: onPressed ?? () => Navigator.push(context, MaterialPageRoute(
-        builder: (context) => ProductDetailPage(product: product)
-      )),
+      onPressed: onPressed,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,7 +33,7 @@ class ProductItem extends StatelessWidget {
               ),
               child: Box(
                 color: Colors.grey[300],
-                image: NetworkImage(product.images[0]),
+                image: NetworkImage(product.images.length > 0 ? product?.images[0] : ""),
               ),
             ),
           ),
@@ -46,11 +43,11 @@ class ProductItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextCustom(
-                  product.name,
+                  product?.name ?? "",
                   maxLines: 2,
                   fontWeight: FontWeight.w600,
                 ),
-                Text(rupiah(product.sellPrice)),
+                Text(rupiah(product?.sellPrice ?? 0)),
               ],
             ),
           ),

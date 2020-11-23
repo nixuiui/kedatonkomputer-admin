@@ -5,6 +5,7 @@ import 'package:kedatonkomputer/core/bloc/auth/auth_event.dart';
 import 'package:kedatonkomputer/core/bloc/auth/auth_state.dart';
 import 'package:kedatonkomputer/core/models/account_model.dart';
 import 'package:kedatonkomputer/helper/app_consts.dart';
+import 'package:kedatonkomputer/helper/shared_preferences.dart';
 import 'package:kedatonkomputer/ui/screens/login.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
 import 'package:kedatonkomputer/ui/widget/text.dart';
@@ -47,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: ListView(
                   padding: EdgeInsets.all(16),
                   children: [
-                    TitleText(account?.name ?? ""),
+                    TitleText(account?.fullName ?? ""),
                     TextCustom(account?.phoneNumber ?? ""),
                     Divider(height: 32),
                     Box(
@@ -59,12 +60,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Colors.transparent,
                             padding: 16,
                             child: BoldText("Hubungi via Whatsapp"),
-                          ),
-                          Divider(height: 0),
-                          Box(
-                            color: Colors.transparent,
-                            padding: 16,
-                            child: BoldText("Kritik dan Saran"),
                           ),
                         ],
                       ),
@@ -81,9 +76,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderRadius: 8,
                   boxShadow: [AppBoxShadow.type3],
                   child: TextCustom("Logout", color: Colors.white, textAlign: TextAlign.center),
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => LoginPage()
-                  )),
+                  onPressed: () {
+                    SharedPreferencesHelper.clear();
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => LoginPage()
+                    ));
+                  }
                 ),
               ),
             ],

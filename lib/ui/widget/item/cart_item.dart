@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:indonesia/indonesia.dart';
-import 'package:kedatonkomputer/core/bloc/cart/cart_bloc.dart';
 import 'package:kedatonkomputer/core/models/cart_model.dart';
 import 'package:kedatonkomputer/helper/app_consts.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
@@ -27,7 +26,6 @@ class CartItem extends StatefulWidget {
 
 class _CartItemState extends State<CartItem> {
   
-  var bloc = CartBloc();
   Cart cart;
 
   @override

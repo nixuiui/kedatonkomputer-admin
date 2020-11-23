@@ -43,17 +43,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }
     
-    if (event is Register) {
-      yield AuthLoading();
-      try {
-        await api.register(data: event.data);
-        yield RegisterSuccess();
-      } catch (error) {
-        print("ERROR: $error");
-        yield AuthFailure(error: error.toString());
-      }
-    }
-    
     if (event is LoadProfileInfo) {
       yield AuthLoading();
       try {

@@ -4,7 +4,6 @@ import 'package:kedatonkomputer/core/bloc/auth/auth_bloc.dart';
 import 'package:kedatonkomputer/core/bloc/auth/auth_event.dart';
 import 'package:kedatonkomputer/core/bloc/auth/auth_state.dart';
 import 'package:kedatonkomputer/ui/screens/home_page.dart';
-import 'package:kedatonkomputer/ui/screens/register.dart';
 import 'package:kedatonkomputer/ui/widget/button.dart';
 import 'package:kedatonkomputer/ui/widget/form.dart';
 import 'package:kedatonkomputer/ui/widget/text.dart';
@@ -49,7 +48,11 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Image.asset("assets/logo.jpeg", height: 60),
+                SizedBox(height: 32),
                 TitleText("KEDATON KOMPUTER"),
+                SizedBox(height: 16),
+                TitleText("LOGIN ADMIN"),
                 SizedBox(height: 32),
                 TextFieldBorderBottom(
                   textHint: "Username",
@@ -59,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextFieldBorderBottom(
                   textHint: "Password",
                   controller: passwordController,
+                  isObsecure: true,
                 ),
                 SizedBox(height: 16),
                 RaisedButtonPrimary(
@@ -66,13 +70,6 @@ class _LoginPageState extends State<LoginPage> {
                   isLoading: isLoading,
                   onPressed: isLoading ? null : () => login(),
                 ),
-                SizedBox(height: 32),
-                FlatButton(
-                  onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => RegisterPage()
-                  )),
-                  child: Text("Daftar")
-                )
               ],
             ),
           )

@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:kedatonkomputer/core/models/category_model.dart';
 
 ProductResponseModel productResponseModelFromMap(String str) => ProductResponseModel.fromMap(json.decode(str));
@@ -103,5 +103,41 @@ class Product {
         "category": category.toMap(),
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+    };
+}
+
+class ProductPost {
+    ProductPost({
+        this.id,
+        this.photo,
+        this.printer,
+        this.merkProduct,
+        this.buyPrice,
+        this.sellPrice,
+        this.description,
+        this.category,
+        this.stock,
+    });
+
+    String id;
+    File photo;
+    String printer;
+    String merkProduct;
+    int buyPrice;
+    int sellPrice;
+    String description;
+    String category;
+    int stock;
+
+    Map<String, dynamic> toMap() => {
+        "id": id,
+        "photo": photo,
+        "printer": printer,
+        "merkProduct": merkProduct,
+        "buyPrice": buyPrice,
+        "sellPrice": sellPrice,
+        "description": description,
+        "category": category,
+        "stock": stock,
     };
 }

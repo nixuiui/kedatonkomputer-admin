@@ -10,7 +10,7 @@ class AuthApi extends MainApi {
   }) async {
     try {
       final response = await postRequest(
-        url: "$host/user/login",
+        url: "$host/admin/login",
         body: {
           "email": username,
           "password": password
@@ -22,24 +22,10 @@ class AuthApi extends MainApi {
     }
   }
   
-  Future<AccountModel> register({
-    @required AccountModel data
-  }) async {
-    try {
-      final response = await postRequest(
-        url: "$host/user/register",
-        body: data.toMapForRegister()
-      );
-      return accountModelFromMap(response);
-    } catch (error) {
-      throw error;
-    }
-  }
-  
   Future<AccountModel> getProfile() async {
     try {
       final response = await getRequest(
-        url: "$host/user/me",
+        url: "$host/admin/me",
         useAuth: true
       );
       return accountModelFromMap(response);
@@ -48,38 +34,38 @@ class AuthApi extends MainApi {
     }
   }
   
-  Future<AccountModel> editProfile({
-    @required AccountModel data
-  }) async {
-    try {
-      final response = await patchRequest(
-        url: "$host/user/me",
-        body: data.toMapForEditProfile(),
-        useAuth: true
-      );
-      return accountModelFromMap(response);
-    } catch (error) {
-      throw error;
-    }
-  }
+  // Future<AccountModel> editProfile({
+  //   @required AccountModel data
+  // }) async {
+  //   try {
+  //     final response = await patchRequest(
+  //       url: "$host/admin/me",
+  //       body: data.toMapForEditProfile(),
+  //       useAuth: true
+  //     );
+  //     return accountModelFromMap(response);
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   
-  Future<AccountModel> editPassword({
-    @required String password,
-    @required String oldPassword
-  }) async {
-    try {
-      final response = await patchRequest(
-        url: "$host/user/me/password",
-        body: {
-          "password" : password,
-          "oldPassword" : oldPassword
-        },
-        useAuth: true
-      );
-      return accountModelFromMap(response);
-    } catch (error) {
-      throw error;
-    }
-  }
+  // Future<AccountModel> editPassword({
+  //   @required String password,
+  //   @required String oldPassword
+  // }) async {
+  //   try {
+  //     final response = await patchRequest(
+  //       url: "$host/admin/me/password",
+  //       body: {
+  //         "password" : password,
+  //         "oldPassword" : oldPassword
+  //       },
+  //       useAuth: true
+  //     );
+  //     return accountModelFromMap(response);
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   
 }

@@ -23,13 +23,9 @@ class OrderLoaded extends OrderState {
   List<Object> get props => [data];
 }
 
-class OrderCreated extends OrderState {}
+class OrderConfirmated extends OrderState {}
 
-class OrderCanceled extends OrderState {}
-
-class TransactionFinished extends OrderState {}
-
-class OrderReviewed extends OrderState {}
+class OrderReceived extends OrderState {}
 
 class OrderDetailLoaded extends OrderState {
   final OrderModel data;
