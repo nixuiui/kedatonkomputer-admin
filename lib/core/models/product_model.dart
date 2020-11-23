@@ -85,7 +85,7 @@ class Product {
         name: json["name"] ?? "",
         merkProduct: json["merkProduct"] ?? "",
         buyPrice: json["buyPrice"] ?? 0,
-        // category: json["category"] != null ? Category.fromMap(json["category"]) : null,
+        category: json["category"] != null ? Category.fromMap(json["category"]) : null,
         createdAt: json["createdAt"] != null ? DateTime.parse(json["createdAt"]) : null,
         updatedAt: json["updatedAt"] != null ? DateTime.parse(json["updatedAt"]) : null,
     );
@@ -94,13 +94,13 @@ class Product {
         "stock": stock,
         "sellPrice": sellPrice,
         "description": description,
-        "images": List<dynamic>.from(images.map((x) => x)),
+        // "images": List<dynamic>.from(images.map((x) => x)),
         "isDeleted": isDeleted,
         "_id": id,
         "name": name,
         "merkProduct": merkProduct,
         "buyPrice": buyPrice,
-        "category": category.toMap(),
+        // "category": category.toMap(),
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
     };
@@ -110,7 +110,7 @@ class ProductPost {
     ProductPost({
         this.id,
         this.photo,
-        this.printer,
+        this.name,
         this.merkProduct,
         this.buyPrice,
         this.sellPrice,
@@ -121,18 +121,18 @@ class ProductPost {
 
     String id;
     File photo;
-    String printer;
+    String name;
     String merkProduct;
-    int buyPrice;
-    int sellPrice;
+    String buyPrice;
+    String sellPrice;
     String description;
     String category;
-    int stock;
+    String stock;
 
     Map<String, dynamic> toMap() => {
         "id": id,
         "photo": photo,
-        "printer": printer,
+        "name": name,
         "merkProduct": merkProduct,
         "buyPrice": buyPrice,
         "sellPrice": sellPrice,

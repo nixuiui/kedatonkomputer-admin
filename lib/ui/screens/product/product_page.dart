@@ -7,6 +7,7 @@ import 'package:kedatonkomputer/core/models/product_model.dart';
 import 'package:kedatonkomputer/ui/screens/product/product_form.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
 import 'package:kedatonkomputer/ui/widget/button.dart';
+import 'package:kedatonkomputer/ui/widget/text.dart';
 
 class ProductPage extends StatefulWidget {
   @override
@@ -51,23 +52,48 @@ class _ProductPageState extends State<ProductPage> {
                 child: ListView.separated(
                   itemCount: products.length,
                   separatorBuilder: (context, index) => Divider(height: 0), 
-                  itemBuilder: (context, index) => Box(
-                    padding: 16,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Box(
-                          width: 40,
-                          height: 40,
-                          color: Colors.grey[200],
-                          image: NetworkImage(products[index].images.length > 0 ? products[index].images[0] : ""),
+                  itemBuilder: (context, index) => Row(
+                    children: [
+                      Expanded(
+                        child: Box(
+                          padding: 16,
+                          onPressed: () => Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => ProductForm(product: products[index])
+                          )).then((value) => bloc.add(LoadProducts(isRefresh: true))),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Box(
+                                width: 40,
+                                height: 40,
+                                color: Colors.grey[200],
+                                image: NetworkImage(products[index].images.length > 0 ? products[index].images[0] : ""),
+                              ),
+                              SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(products[index].name),
+                                    LabelText(products[index]?.category?.name ?? ""),
+                                  ],
+                                )
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Text(products[index].name)
-                        ),
-                      ],
-                    ),
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.all(16),
+                        icon: Icon(Icons.delete, color: Colors.red), 
+                        onPressed: (){
+                          setState(() {
+                            bloc.add(DeleteProduct(id: products[index].id));
+                            products.removeAt(index);
+                          });
+                        }
+                      )
+                    ],
                   ), 
                 ),
               ),
@@ -77,7 +103,7 @@ class _ProductPageState extends State<ProductPage> {
                   text: "Tambah Produk",
                   onPressed: () => Navigator.push(context, MaterialPageRoute(
                     builder: (context) => ProductForm()
-                  ))
+                  )).then((value) => bloc.add(LoadProducts(isRefresh: true)))
                 ),
               )
             ],

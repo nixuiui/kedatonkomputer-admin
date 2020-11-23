@@ -58,6 +58,39 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         yield ProductFailure(error: error.toString());
       }
     }
+    
+    if (event is CreateProduct) {
+      yield ProductLoading();
+      try {
+        await api.createProduct(data: event.data);
+        yield ProductCreated();
+      } catch (error) {
+        print("ERROR: $error");
+        yield ProductFailure(error: error.toString());
+      }
+    }
+    
+    if (event is UpdateProduct) {
+      yield ProductLoading();
+      try {
+        await api.editProduct(data: event.data);
+        yield ProductCreated();
+      } catch (error) {
+        print("ERROR: $error");
+        yield ProductFailure(error: error.toString());
+      }
+    }
+    
+    if (event is DeleteProduct) {
+      yield ProductLoading();
+      try {
+        await api.deleteProduct(id: event.id);
+        yield ProductDeleted();
+      } catch (error) {
+        print("ERROR: $error");
+        yield ProductFailure(error: error.toString());
+      }
+    }
 
   }
 }

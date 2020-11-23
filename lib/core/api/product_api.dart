@@ -31,27 +31,27 @@ class ProductApi extends MainApi {
     }
   }
   
-  Future<Product> createProduct({ProductPost data}) async {
+  Future<bool> createProduct({ProductPost data}) async {
     try {
-      final response = await postRequest(
+      await postRequest(
         url: "$host/admin/product",
         useAuth: true,
         body: data.toMap()
       );
-      return productFromMap(response);
+      return true;
     } catch (error) {
       throw error;
     }
   }
   
-  Future<Product> editProduct({ProductPost data}) async {
+  Future<bool> editProduct({ProductPost data}) async {
     try {
-      final response = await postRequest(
+      await patchRequest(
         url: "$host/admin/product/${data.id}",
         useAuth: true,
         body: data.toMap()
       );
-      return productFromMap(response);
+      return true;
     } catch (error) {
       throw error;
     }

@@ -44,6 +44,12 @@ class ProductDetailLoaded extends ProductState {
   List<Object> get props => [data];
 }
 
+class ProductCreated extends ProductState {}
+
+class ProductUpdated extends ProductState {}
+
+class ProductDeleted extends ProductState {}
+
 class ProductFailure extends ProductState {
   final String error;
 

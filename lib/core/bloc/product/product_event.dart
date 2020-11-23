@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:kedatonkomputer/core/models/product_model.dart';
 
 abstract class ProductEvent extends Equatable {
   const ProductEvent();
@@ -30,6 +31,39 @@ class LoadProductDetail extends ProductEvent {
   final String id;
 
   const LoadProductDetail({
+    this.id
+  });
+
+  @override
+  List<Object> get props => [id];
+}
+
+class CreateProduct extends ProductEvent {
+  final ProductPost data;
+
+  const CreateProduct({
+    this.data
+  });
+
+  @override
+  List<Object> get props => [data];
+}
+
+class UpdateProduct extends ProductEvent {
+  final ProductPost data;
+
+  const UpdateProduct({
+    this.data
+  });
+
+  @override
+  List<Object> get props => [data];
+}
+
+class DeleteProduct extends ProductEvent {
+  final String id;
+
+  const DeleteProduct({
     this.id
   });
 
