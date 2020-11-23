@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:kedatonkomputer/core/models/category_model.dart';
 
 ProductResponseModel productResponseModelFromMap(String str) => ProductResponseModel.fromMap(json.decode(str));
@@ -120,7 +120,7 @@ class ProductPost {
     });
 
     String id;
-    File photo;
+    List<MultipartFile> photo;
     String name;
     String merkProduct;
     String buyPrice;

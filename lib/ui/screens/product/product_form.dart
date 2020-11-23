@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kedatonkomputer/core/bloc/category/category_bloc.dart';
@@ -9,6 +12,7 @@ import 'package:kedatonkomputer/core/bloc/product/product_state.dart';
 import 'package:kedatonkomputer/core/models/category_model.dart';
 import 'package:kedatonkomputer/core/models/option_model.dart';
 import 'package:kedatonkomputer/core/models/product_model.dart';
+import 'package:kedatonkomputer/ui/screens/select_from_gallery.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
 import 'package:kedatonkomputer/ui/widget/button.dart';
 import 'package:kedatonkomputer/ui/widget/form.dart';
@@ -37,6 +41,8 @@ class _ProductFormState extends State<ProductForm> {
   var sellPriceController = TextEditingController();
   var descriptionController = TextEditingController();
   var stockController = TextEditingController();
+  var photos = <File>[];
+  var photosMultiPart = <MultipartFile>[];
 
   var categoryBloc = CategoryBloc();
   var categories = <OptionsModel<Category>>[];
@@ -149,6 +155,61 @@ class _ProductFormState extends State<ProductForm> {
                     minLines: 6,
                     maxLines: 15,
                   ),
+                  SizedBox(height: 16),
+                  Wrap(
+                    children: [
+                      Stack(
+                        children: [
+                          Box(
+                            width: 60,
+                            height: 60,
+                            borderRadius: 8,
+                            color: Colors.grey[200],
+                            child: Icon(Icons.add),
+                            onPressed: () => selectFromGallery(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Wrap(
+                    spacing: 16,
+                    children: photos.asMap().entries.map((value) => Stack(
+                      children: [
+                        Box(
+                          width: 60,
+                          height: 60,
+                          borderRadius: 8,
+                          color: Colors.grey[200],
+                          image: FileImage(value.value),
+                          onPressed: () {
+                            setState(() {
+                              photos.removeAt(value.key);
+                              photosMultiPart.removeAt(value.key);
+                            });
+                          },
+                        ),
+                        Positioned(
+                          top: 4,
+                          right: 4,
+                          child: Box(
+                            width: 20,
+                            height: 20,
+                            color: Colors.white.withOpacity(0.8),
+                            child: Center(child: Icon(Icons.close, size: 14)),
+                            onPressed: () {
+                              setState(() {
+                                photos.removeAt(value.key);
+                                photosMultiPart.removeAt(value.key);
+                              });
+                            },
+                          )
+                        )
+                      ],
+                    )).toList()
+                  ),
+                  SizedBox(height: 32),
                 ],
               ),
             ),
@@ -166,7 +227,7 @@ class _ProductFormState extends State<ProductForm> {
                     });
                     var data = ProductPost(
                       id: widget.product != null ? widget.product.id : "",
-                      photo: null,
+                      photo: photosMultiPart,
                       name: nameController?.text ?? "",
                       merkProduct: merkProductController?.text ?? "",
                       buyPrice: buyPriceController?.text ?? "",
@@ -205,6 +266,27 @@ class _ProductFormState extends State<ProductForm> {
       setState(() {
         category = results["data"];
       });
+    }
+  }
+
+  Future selectFromGallery() async {
+    Map results = await Navigator.push(context, MaterialPageRoute(
+      builder: (context) => SelectFromGallery()
+    ));
+
+    if (results != null && results.containsKey("file")) {
+      File file = results["file"];
+      if(file.lengthSync() > 2000000) {
+        Toast.show("Size gambar tidak boleh melebihi 2MB", context);
+      } else {
+        var multiFormdata = await MultipartFile.fromFile(file.path);
+        setState(() {
+          photos.add(file);
+          photosMultiPart.add(multiFormdata);
+          print("photos.length");
+          print(photos.length);
+        });
+      }
     }
   }
 }

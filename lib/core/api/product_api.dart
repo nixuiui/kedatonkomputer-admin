@@ -36,7 +36,8 @@ class ProductApi extends MainApi {
       await postRequest(
         url: "$host/admin/product",
         useAuth: true,
-        body: data.toMap()
+        body: data.toMap(),
+        isFormData: true
       );
       return true;
     } catch (error) {
@@ -49,6 +50,7 @@ class ProductApi extends MainApi {
       await patchRequest(
         url: "$host/admin/product/${data.id}",
         useAuth: true,
+        isFormData: true,
         body: data.toMap()
       );
       return true;
