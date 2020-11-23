@@ -51,9 +51,28 @@ class _CategoryPageState extends State<CategoryPage> {
                 child: ListView.separated(
                   itemCount: categories.length,
                   separatorBuilder: (context, index) => Divider(height: 0), 
-                  itemBuilder: (context, index) => Box(
-                    padding: 16,
-                    child: Text(categories[index].name),
+                  itemBuilder: (context, index) => Row(
+                    children: [
+                      Expanded(
+                        child: Box(
+                          padding: 16,
+                          onPressed: () => Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => CategoryForm(category: categories[index])
+                          )).then((value) => bloc.add(LoadCategories())),
+                          child: Text(categories[index].name),
+                        ),
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.all(16),
+                        icon: Icon(Icons.delete, color: Colors.red), 
+                        onPressed: (){
+                          setState(() {
+                            bloc.add(DeleteCategory(id: categories[index].id));
+                            categories.removeAt(index);
+                          });
+                        }
+                      )
+                    ],
                   ), 
                 ),
               ),
@@ -63,7 +82,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   text: "Tambah Kategori",
                   onPressed: () => Navigator.push(context, MaterialPageRoute(
                     builder: (context) => CategoryForm()
-                  ))
+                  )).then((value) => bloc.add(LoadCategories()))
                 ),
               )
             ],
