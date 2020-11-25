@@ -16,6 +16,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     final currentState = state;
     
     if (event is LoadProducts) {
+      print("event.search");
+      print(event.search);
       page = event.page ?? page;
       limit = event.limit ?? limit;
       if(event.isRefresh || currentState is ProductUninitialized) {

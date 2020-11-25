@@ -42,4 +42,11 @@ class AccountModel {
         "role": role,
         "token": token,
     };
+    
+    Map<String, dynamic> toEditAccountMap() => {
+        "fullName": fullName,
+        "email": email,
+        "phoneNumber": phoneNumber,
+        "role": role
+    };
 }

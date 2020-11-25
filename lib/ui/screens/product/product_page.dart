@@ -7,6 +7,8 @@ import 'package:kedatonkomputer/core/models/product_model.dart';
 import 'package:kedatonkomputer/ui/screens/product/product_form.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
 import 'package:kedatonkomputer/ui/widget/button.dart';
+import 'package:kedatonkomputer/ui/widget/form.dart';
+import 'package:kedatonkomputer/ui/widget/loading.dart';
 import 'package:kedatonkomputer/ui/widget/text.dart';
 
 class ProductPage extends StatefulWidget {
@@ -18,6 +20,9 @@ class _ProductPageState extends State<ProductPage> {
 
   var bloc = ProductBloc();
   var products = <Product>[];
+  var isStarting = true;
+
+  var controller = TextEditingController();
 
   @override
   void initState() {
@@ -26,7 +31,10 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   refresh() {
-    bloc.add(LoadProducts(isRefresh: true));
+    bloc.add(LoadProducts(
+      isRefresh: true,
+      search: controller?.text ?? ""
+    ));
   }
 
   @override
@@ -36,6 +44,7 @@ class _ProductPageState extends State<ProductPage> {
       listener: (context, state) {
         if(state is ProductLoaded) {
           setState(() {
+            isStarting = false;
             products = state.data;
           });
         }
@@ -48,8 +57,31 @@ class _ProductPageState extends State<ProductPage> {
         body: SafeArea(
           child: Column(
             children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextFieldBox(
+                      textHint: "Cari Produk",
+                      backgroundColor: Colors.white,
+                      borderColor: Colors.white,
+                      controller: controller,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        isStarting = true;
+                      });
+                      refresh();
+                    },
+                  )
+                ],
+              ),
+              Divider(),
               Expanded(
-                child: ListView.separated(
+                child: isStarting ? LoadingCustom() : ListView.separated(
                   itemCount: products.length,
                   separatorBuilder: (context, index) => Divider(height: 0), 
                   itemBuilder: (context, index) => Row(

@@ -5,6 +5,7 @@ import 'package:kedatonkomputer/ui/screens/login.dart';
 import 'package:kedatonkomputer/ui/screens/order/order_page.dart';
 import 'package:kedatonkomputer/ui/screens/product/product_page.dart';
 import 'package:kedatonkomputer/ui/screens/profile_page.dart';
+import 'package:kedatonkomputer/ui/screens/user/user_page.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
 import 'package:kedatonkomputer/ui/widget/text.dart';
 
@@ -68,6 +69,20 @@ class _HomePageState extends State<HomePage> {
             padding: 16,
             onPressed: () => Navigator.push(context, MaterialPageRoute(
               builder: (context) => OrderPage()
+            ))
+          ),
+          Divider(height: 0),
+          Box(
+            child: Row(
+              children: [
+                Icon(Icons.people),
+                SizedBox(width: 16),
+                TextCustom("Kelola User"),
+              ],
+            ),
+            padding: 16,
+            onPressed: () => Navigator.push(context, MaterialPageRoute(
+              builder: (context) => UserPage()
             ))
           ),
           Divider(height: 0),

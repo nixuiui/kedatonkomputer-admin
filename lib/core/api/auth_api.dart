@@ -34,20 +34,20 @@ class AuthApi extends MainApi {
     }
   }
   
-  // Future<AccountModel> editProfile({
-  //   @required AccountModel data
-  // }) async {
-  //   try {
-  //     final response = await patchRequest(
-  //       url: "$host/admin/me",
-  //       body: data.toMapForEditProfile(),
-  //       useAuth: true
-  //     );
-  //     return accountModelFromMap(response);
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+  Future<AccountModel> editProfile({
+    @required AccountModel data
+  }) async {
+    try {
+      final response = await patchRequest(
+        url: "$host/admin/update",
+        body: data.toEditAccountMap(),
+        useAuth: true
+      );
+      return accountModelFromMap(response);
+    } catch (error) {
+      throw error;
+    }
+  }
   
   // Future<AccountModel> editPassword({
   //   @required String password,

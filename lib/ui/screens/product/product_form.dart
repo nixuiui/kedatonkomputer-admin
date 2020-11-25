@@ -152,6 +152,7 @@ class _ProductFormState extends State<ProductForm> {
                   SmallText("Deskripsi"),
                   TextAreaBorderBottom(
                     textHint: "Deskripsi produk",
+                    controller: descriptionController,
                     minLines: 6,
                     maxLines: 15,
                   ),

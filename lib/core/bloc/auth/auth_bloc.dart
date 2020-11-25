@@ -54,6 +54,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }
     
+    if (event is UpdateProfile) {
+      yield AuthLoading();
+      try {
+        var response = await api.editProfile(data: event.data);
+        yield ProfileUpdated(data: response);
+      } catch (error) {
+        print("ERROR: $error");
+        yield AuthFailure(error: error.toString());
+      }
+    }
+    
     if (event is Logout) {
       yield AuthLoading();
       SharedPreferencesHelper.clear();

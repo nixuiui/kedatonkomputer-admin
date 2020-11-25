@@ -52,4 +52,15 @@ class CheckAccount extends AuthEvent {
   List<Object> get props => [username, email, phoneNumber];
 }
 
+class UpdateProfile extends AuthEvent {
+  final AccountModel data;
+
+  const UpdateProfile({
+    this.data,
+  });
+
+  @override
+  List<Object> get props => [data];
+}
+
 class Logout extends AuthEvent {}

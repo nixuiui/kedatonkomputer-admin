@@ -54,6 +54,15 @@ class AccountAvailable extends AuthState {
   List<Object> get props => [data];
 }
 
+class ProfileUpdated extends AuthState {
+  final AccountModel data;
+
+  const ProfileUpdated({@required this.data});
+
+  @override
+  List<Object> get props => [data];
+}
+
 class AuthFailure extends AuthState {
   final String error;
 
