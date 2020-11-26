@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'dart:math';
+import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,7 @@ import 'package:kedatonkomputer/ui/widget/button.dart';
 import 'package:kedatonkomputer/ui/widget/form.dart';
 import 'package:kedatonkomputer/ui/widget/select_option.dart';
 import 'package:kedatonkomputer/ui/widget/text.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:toast/toast.dart';
 
 class ProductForm extends StatefulWidget {
@@ -67,6 +69,12 @@ class _ProductFormState extends State<ProductForm> {
         name: widget.product?.category?.name ?? "",
         value: widget.product.category
       );
+      widget.product.images.forEach((e) async { 
+        var file = await urlToFile(e);
+        var multiFormdata = await MultipartFile.fromFile(file.path);
+        photos.add(file);
+        photosMultiPart.add(multiFormdata);
+      });
     }
     super.initState();
   }
@@ -289,5 +297,15 @@ class _ProductFormState extends State<ProductForm> {
         });
       }
     }
+  }
+
+  Future<File> urlToFile(String imageUrl) async {
+    var rng = new Random();
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+    File file = new File('$tempPath'+ (rng.nextInt(100)).toString() +'.png');
+    http.Response response = await http.get(imageUrl);
+    await file.writeAsBytes(response.bodyBytes);
+    return file;
   }
 }

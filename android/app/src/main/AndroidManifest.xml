@@ -15,9 +15,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="kedatonkomputer"
+        android:label="Kedaton Komputer Admin"
         android:requestLegacyExternalStorage="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -49,23 +49,4 @@ class AuthApi extends MainApi {
     }
   }
   
-  // Future<AccountModel> editPassword({
-  //   @required String password,
-  //   @required String oldPassword
-  // }) async {
-  //   try {
-  //     final response = await patchRequest(
-  //       url: "$host/admin/me/password",
-  //       body: {
-  //         "password" : password,
-  //         "oldPassword" : oldPassword
-  //       },
-  //       useAuth: true
-  //     );
-  //     return accountModelFromMap(response);
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-  
 }

@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Image.asset("assets/logo.jpeg", height: 100),
               SizedBox(height: 32),
-              TitleText("KEDATON KOMPUTER"),
+              TitleText("KEDATON KOMPUTER ADMIN"),
             ],
           )
         )
