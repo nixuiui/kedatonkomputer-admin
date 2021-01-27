@@ -66,6 +66,10 @@ class _ProductPageState extends State<ProductPage> {
                       backgroundColor: Colors.white,
                       borderColor: Colors.white,
                       controller: controller,
+                      onFieldSubmitted: (value) {
+                        controller?.text = value;
+                        refresh();
+                      },
                     ),
                   ),
                   IconButton(

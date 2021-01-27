@@ -8,6 +8,7 @@ import 'package:kedatonkomputer/core/models/order_model.dart';
 import 'package:kedatonkomputer/ui/screens/order/order_detail.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
 import 'package:kedatonkomputer/ui/widget/button.dart';
+import 'package:kedatonkomputer/ui/widget/loading.dart';
 import 'package:kedatonkomputer/ui/widget/text.dart';
 
 class OrderPage extends StatefulWidget {
@@ -33,8 +34,8 @@ class _OrderPageState extends State<OrderPage> {
       cubit: bloc,
       listener: (context, state) {
         if(state is OrderLoaded) {
-          orders = state.data;
           setState(() {
+            orders = state.data;
             isLoading = false;
           });
         } else if(state is OrderFailure) {
@@ -48,9 +49,10 @@ class _OrderPageState extends State<OrderPage> {
           title: Text("Riwayat Order"),
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: ListView.separated(
+              child: isLoading ? Center(child: LoadingCustom()) : ListView.separated(
                 itemCount: orders.length,
                 separatorBuilder: (context, index) => Divider(height: 0), 
                 itemBuilder: (context, index) => Box(
@@ -92,7 +94,7 @@ class _OrderPageState extends State<OrderPage> {
                             radius: 4,
                             text: "Detail",
                             onPressed: () => Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => OrderDetailPage(order: orders[index])
+                              builder: (context) => OrderDetailPage(id: orders[index].id)
                             )).then((value) => bloc.add(LoadMyOrders()))
                           ),
                         ],

@@ -7,6 +7,7 @@ import 'package:kedatonkomputer/core/models/user_model.dart';
 import 'package:kedatonkomputer/ui/widget/button.dart';
 import 'package:kedatonkomputer/ui/widget/text.dart';
 import 'package:toast/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserDetailPage extends StatefulWidget {
 
@@ -63,8 +64,25 @@ class _UserDetailPageState extends State<UserDetailPage> {
             TextCustom(widget.user.gender == "L" ? "Laki-laki" : "Perempuan"),
             SizedBox(height: 32),
             RaisedButtonCustom(
+              text: "Hubungi Whatsapp",
+              color: Colors.green,
+              onPressed: () {
+                var url = Uri(
+                  scheme: "https",
+                  host: "api.whatsapp.com",
+                  path: "send",
+                  queryParameters: {
+                    "phone": "${widget.user.phoneNumber}"
+                  }
+                );
+                launchURL(url.toString());
+              }
+            ),
+            SizedBox(height: 16),
+            RaisedButtonCustom(
               text: "Reset Password",
               isLoading: isLoading,
+              color: Colors.red,
               onPressed: () {
                 setState(() {
                   isLoading = true;
@@ -77,4 +95,12 @@ class _UserDetailPageState extends State<UserDetailPage> {
       ),
     );
   }
+
+  launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 }

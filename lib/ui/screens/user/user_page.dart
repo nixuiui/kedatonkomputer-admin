@@ -6,6 +6,7 @@ import 'package:kedatonkomputer/core/bloc/user/user_state.dart';
 import 'package:kedatonkomputer/core/models/user_model.dart';
 import 'package:kedatonkomputer/ui/screens/user/user_detail.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
+import 'package:kedatonkomputer/ui/widget/loading.dart';
 
 class UserPage extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _UserPageState extends State<UserPage> {
 
   var bloc = UserBloc();
   var users = <User>[];
+  var isStarting = true;
 
   @override
   void initState() {
@@ -34,6 +36,7 @@ class _UserPageState extends State<UserPage> {
       listener: (context, state) {
         if(state is UserLoaded) {
           setState(() {
+            isStarting = false;
             users = state.data;
           });
         }
@@ -47,7 +50,7 @@ class _UserPageState extends State<UserPage> {
           child: Column(
             children: [
               Expanded(
-                child: ListView.separated(
+                child: isStarting ? Center(child: LoadingCustom()) : ListView.separated(
                   itemCount: users.length,
                   separatorBuilder: (context, index) => Divider(height: 0), 
                   itemBuilder: (context, index) => Row(

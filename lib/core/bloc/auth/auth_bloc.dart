@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:kedatonkomputer/core/api/auth_api.dart';
 import 'package:kedatonkomputer/core/bloc/auth/auth_event.dart';
 import 'package:kedatonkomputer/core/bloc/auth/auth_state.dart';
@@ -36,6 +37,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         SharedPreferencesHelper.setApiToken(response.token);
         SharedPreferencesHelper.setAccount(jsonEncode(response.toMap()));
         SharedPreferencesHelper.setAuthenticated(true);
+        FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+        _firebaseMessaging.subscribeToTopic("admin");
         yield AuthLoginSuccess(data: response);
       } catch (error) {
         print("ERROR: $error");
@@ -67,6 +70,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     
     if (event is Logout) {
       yield AuthLoading();
+      FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+        _firebaseMessaging.unsubscribeFromTopic("admin");
       SharedPreferencesHelper.clear();
       yield AuthUnauthenticated();
     }

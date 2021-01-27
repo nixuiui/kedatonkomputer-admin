@@ -70,21 +70,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         )
                       ],
                     ) : Container(),
-                    Divider(height: 32),
-                    Box(
-                      borderRadius: 8,
-                      borderColor: Colors.grey[300],
-                      child: Column(
-                        children: [
-                          Box(
-                            color: Colors.transparent,
-                            padding: 16,
-                            child: BoldText("Hubungi via Whatsapp"),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16),
                   ],
                 ),
               ),

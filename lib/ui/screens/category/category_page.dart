@@ -7,6 +7,7 @@ import 'package:kedatonkomputer/core/models/category_model.dart';
 import 'package:kedatonkomputer/ui/screens/category/category_form.dart';
 import 'package:kedatonkomputer/ui/widget/box.dart';
 import 'package:kedatonkomputer/ui/widget/button.dart';
+import 'package:kedatonkomputer/ui/widget/loading.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   var bloc = CategoryBloc();
   var categories = <Category>[];
+  var isStarting = true;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _CategoryPageState extends State<CategoryPage> {
       listener: (context, state) {
         if(state is CategoryLoaded) {
           setState(() {
+            isStarting = false;
             categories = state.data;
           });
         }
@@ -48,7 +51,7 @@ class _CategoryPageState extends State<CategoryPage> {
           child: Column(
             children: [
               Expanded(
-                child: ListView.separated(
+                child: isStarting ? LoadingCustom() : ListView.separated(
                   itemCount: categories.length,
                   separatorBuilder: (context, index) => Divider(height: 0), 
                   itemBuilder: (context, index) => Row(

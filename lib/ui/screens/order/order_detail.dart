@@ -20,10 +20,10 @@ class OrderDetailPage extends StatefulWidget {
 
   const OrderDetailPage({
     Key key,
-    this.order,
+    this.id,
   }) : super(key: key);
   
-  final OrderModel order;
+  final String id;
 
   @override
   _OrderDetailPageState createState() => _OrderDetailPageState();
@@ -33,13 +33,13 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
 
   var bloc = OrderBloc();
   OrderModel order;
+  var isStarting = true;
   var isAccepting = false;
   var isUploadingPhoto = false;
 
   @override
   void initState() {
-    order = widget.order;
-    bloc.add(LoadDetailOrder(id: order.id));
+    bloc.add(LoadDetailOrder(id: widget.id));
     super.initState();
   }
 
@@ -53,6 +53,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
             if(state is OrderDetailLoaded) {
               print("OrderDetailLoaded");
               setState(() {
+                isStarting = false;
                 isAccepting = false;
                 isUploadingPhoto = false;
                 order = state.data;
@@ -77,7 +78,7 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
         appBar: AppBar(
           title: Text("Detail Order"),
         ),
-        body: ListView(
+        body: isStarting ? Center(child: LoadingCustom()) : ListView(
           children: [
             ListView.separated(
               shrinkWrap: true,
@@ -130,9 +131,29 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   SizedBox(height: 12),
                   LabelText("Total Bayar"),
                   TextCustom(rupiah(order?.totalPrice)),
-                  SizedBox(height: 12),
-                  LabelText("Catatan"),
-                  TextCustom(order?.orderNotes ?? "-"),
+                  order?.orderNotes != null ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 12),
+                      LabelText("Catatan"),
+                      TextCustom(order?.orderNotes ?? "-"),
+                    ],
+                  ) : Container(),
+                  order?.ulasan != null ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 12),
+                      LabelText("Ulasan"),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.star, size: 14, color: Colors.yellow[700]),
+                          Text(order?.rating?.toString() ?? "0")
+                        ],
+                      ),
+                      TextCustom(order?.ulasan ?? "-"),
+                    ],
+                  ) : Container(),
                   order?.cancelReason != null && order?.cancelReason != "" ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -218,7 +239,21 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                 ),
                 Divider(height: 0),
               ],
-            ) : Container()
+            ) : Container(),
+            SizedBox(height: 16),
+            Divider(height: 0),
+            order?.proofItemReceived != null ? Box(
+              padding: 16,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Bukti Kedatangan"),
+                  SizedBox(height: 16),
+                  Image.network(order?.proofItemReceived ?? "")
+                ],
+              ),
+            ) : Container(),
+            Divider(height: 0),
           ],
         ),
       ),

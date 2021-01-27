@@ -152,7 +152,7 @@ class DetailProduct {
     factory DetailProduct.fromJson(Map<String, dynamic> json) => DetailProduct(
         id: json["_id"],
         count: json["count"],
-        product: Product.fromMap(json["product"]),
+        product: json["product"] != null ? Product.fromMap(json["product"]) : null,
         price: json["price"],
         totalPrice: json["totalPrice"],
     );

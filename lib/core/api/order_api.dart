@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:kedatonkomputer/core/api/main_api.dart';
 import 'package:kedatonkomputer/core/models/order_model.dart';
+import 'package:kedatonkomputer/core/models/report_model.dart';
 
 class OrderApi extends MainApi {
   
@@ -44,10 +45,10 @@ class OrderApi extends MainApi {
         url: "$host/admin/item-received",
         useAuth: true,
         isFormData: true,
-        body: {
+        body: FormData.fromMap({
           "proofItemReceived": multiPartFile,
           "order": id
-        }
+        })
       );
       return true;
     } catch (error) {
@@ -66,6 +67,21 @@ class OrderApi extends MainApi {
         useAuth: true
       );
       return orderResponseFromJson(response).order;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  Future<ReportResponse> report({
+    String fromDate,
+    String toDate
+  }) async {
+    try {
+      final response = await getRequest(
+        url: "$host/admin/report?fromDate=$fromDate&toDate=$toDate",
+        useAuth: true
+      );
+      return reportResponseFromMap(response);
     } catch (error) {
       throw error;
     }

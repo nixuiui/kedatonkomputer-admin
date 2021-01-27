@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:kedatonkomputer/core/api/main_api.dart';
 import 'package:kedatonkomputer/core/models/product_model.dart';
 
@@ -31,12 +32,14 @@ class ProductApi extends MainApi {
     }
   }
   
-  Future<bool> createProduct({ProductPost data}) async {
+  Future<bool> uploadImageProduct({MultipartFile file, String id}) async {
     try {
       await postRequest(
-        url: "$host/admin/product",
+        url: "$host/admin/image-product/$id",
         useAuth: true,
-        body: data.toMap(),
+        body: {
+            "photo": file
+        },
         isFormData: true
       );
       return true;
@@ -44,14 +47,54 @@ class ProductApi extends MainApi {
       throw error;
     }
   }
+
+  Future<Product> createProduct({ProductPost data}) async {
+    try {
+      var formData = FormData();
+      for (var item in data.photo) {
+        formData.files.add(MapEntry('photo', item));
+      }
+      formData.fields.addAll([
+        MapEntry('name', data.name),
+        MapEntry('merkProduct', data.merkProduct),
+        MapEntry('buyPrice', data.buyPrice),
+        MapEntry('sellPrice', data.sellPrice),
+        MapEntry('description', data.description),
+        MapEntry('category', data.category),
+        MapEntry('stock', data.stock),
+      ]);
+      var response = await postRequest(
+        url: "$host/admin/product",
+        useAuth: true,
+        body: formData,
+        isFormData: true
+      );
+      return productFromMap(response);
+    } catch (error) {
+      throw error;
+    }
+  }
   
   Future<bool> editProduct({ProductPost data}) async {
     try {
+      var formData = FormData();
+      for (var item in data.photo) {
+        formData.files.add(MapEntry('photo', item));
+      }
+      formData.fields.addAll([
+        MapEntry('name', data.name),
+        MapEntry('merkProduct', data.merkProduct),
+        MapEntry('buyPrice', data.buyPrice),
+        MapEntry('sellPrice', data.sellPrice),
+        MapEntry('description', data.description),
+        MapEntry('category', data.category),
+        MapEntry('stock', data.stock),
+      ]);
       await patchRequest(
         url: "$host/admin/product/${data.id}",
         useAuth: true,
         isFormData: true,
-        body: data.toMap()
+        body: formData,
       );
       return true;
     } catch (error) {

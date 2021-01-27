@@ -78,3 +78,16 @@ class ReceiveOrder extends OrderEvent {
   @override
   List<Object> get props => [order, proofItemReceived];
 }
+
+class GetReport extends OrderEvent {
+  final String fromDate;
+  final String toDate;
+
+  const GetReport({
+    this.fromDate,
+    this.toDate,
+  });
+
+  @override
+  List<Object> get props => [fromDate, toDate];
+}

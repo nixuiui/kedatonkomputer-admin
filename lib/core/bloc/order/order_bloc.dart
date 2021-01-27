@@ -59,6 +59,17 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         yield OrderFailure(error: error.toString());
       }
     }
+    
+    if (event is GetReport) {
+      yield OrderLoading();
+      try {
+        var response = await api.report(fromDate: event.fromDate, toDate: event.toDate);
+        yield ReportLoaded(data: response);
+      } catch (error) {
+        print("ERROR: $error");
+        yield OrderFailure(error: error.toString());
+      }
+    }
 
   }
 }

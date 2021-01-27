@@ -25,13 +25,15 @@ class MainApi {
     var apiToken = await SharedPreferencesHelper.getApiToken();
     if(useAuth)
       this.headers[HttpHeaders.authorizationHeader] = "Bearer $apiToken";
+    if(useAuth)
+      this.headers[HttpHeaders.contentTypeHeader] = Headers.formUrlEncodedContentType;
     print('REQUEST_POST: $url');
     print('REQUEST_HEADER: $headers');
     print('REQUEST_BODY: $body');
     try {
       final response = await dio.post<String>(
         url, 
-        data: isFormData ? FormData.fromMap(body) : jsonEncode(body),
+        data: isFormData ? body : jsonEncode(body),
         options: Options(
           headers: this.headers,
           validateStatus: (status) => true,
@@ -71,7 +73,7 @@ class MainApi {
     try {
       final response = await dio.patch<String>(
         url,
-        data: isFormData ? FormData.fromMap(body) : jsonEncode(body),
+        data: isFormData ? body : jsonEncode(body),
         options: Options(
           headers: this.headers,
           validateStatus: (status) => true,

@@ -74,7 +74,7 @@ class _CancelOrderPageState extends State<CancelOrderPage> {
                       widget.bloc.add(ConfirmOrder(
                         id: widget.order.id, 
                         cancelReason: controller.text,
-                        status: "terima"
+                        status: "tolak"
                       ));
                     }
                   }

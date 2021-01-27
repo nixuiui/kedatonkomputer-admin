@@ -140,4 +140,15 @@ class ProductPost {
         "category": category,
         "stock": stock,
     };
+    
+    Map<String, dynamic> toMapAdd() => {
+        "photo": photo,
+        "name": name,
+        "merkProduct": merkProduct,
+        "buyPrice": buyPrice,
+        "sellPrice": sellPrice,
+        "description": description,
+        "category": category,
+        "stock": stock,
+    };
 }

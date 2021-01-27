@@ -264,7 +264,7 @@ class _ProductFormState extends State<ProductForm> {
     Map results = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SelectOptions(
-        title: "Pilih Bank",
+        title: "Pilih Kategori",
         options: categories,
         selected: category,
         useFilter: true,
@@ -288,7 +288,7 @@ class _ProductFormState extends State<ProductForm> {
       if(file.lengthSync() > 2000000) {
         Toast.show("Size gambar tidak boleh melebihi 2MB", context);
       } else {
-        var multiFormdata = await MultipartFile.fromFile(file.path);
+        var multiFormdata = MultipartFile.fromFileSync(file.path);
         setState(() {
           photos.add(file);
           photosMultiPart.add(multiFormdata);

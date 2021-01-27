@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:kedatonkomputer/core/models/order_model.dart';
+import 'package:kedatonkomputer/core/models/report_model.dart';
 import 'package:meta/meta.dart';
 
 abstract class OrderState extends Equatable {
@@ -33,6 +34,15 @@ class OrderDetailLoaded extends OrderState {
   const OrderDetailLoaded({
     @required this.data,
   });
+
+  @override
+  List<Object> get props => [data];
+}
+
+class ReportLoaded extends OrderState {
+  final ReportResponse data;
+
+  const ReportLoaded({@required this.data});
 
   @override
   List<Object> get props => [data];

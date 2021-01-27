@@ -47,7 +47,8 @@ class UserApi extends MainApi {
     try {
       await patchRequest(
         url: "$host/admin/user/$id",
-        useAuth: true
+        useAuth: true,
+        body: {}
       );
       return true;
     } catch (error) {
