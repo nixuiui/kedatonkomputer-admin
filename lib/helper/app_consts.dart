@@ -65,6 +65,6 @@ class AppGradientColor {
   static Gradient type1 = LinearGradient(
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,
-    colors: [AppColor.accent, AppColor.primary]
+    // colors: [AppColor.accent, AppColor.primary]
   );
 }

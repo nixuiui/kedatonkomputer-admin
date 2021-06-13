@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("assets/logo.jpeg", height: 60),
+                Image.asset("assets/logo.png", height: 60),
                 SizedBox(height: 32),
                 TitleText("KEDATON KOMPUTER"),
                 SizedBox(height: 16),

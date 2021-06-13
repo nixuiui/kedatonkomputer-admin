@@ -72,13 +72,12 @@ class _ReportPageState extends State<ReportPage> {
           return <pw.Widget>  [
             pw.Header(
               level: 1,
-              child: pw.Text("Laporan Penjualan")
+              child: pw.Center(child: pw.Text("Laporan Penjualan"))
             ),
-            pw.Table.fromTextArray(context: context, data: rows),
+            pw.SizedBox(height: 16),
+            pw.Table.fromTextArray(context: context, data: rows)
           ];
         },
-
-
       )
     );
   }

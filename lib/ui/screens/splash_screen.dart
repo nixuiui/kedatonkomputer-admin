@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset("assets/logo.jpeg", height: 100),
+              Image.asset("assets/logo.png", height: 100),
               SizedBox(height: 32),
               TitleText("KEDATON KOMPUTER ADMIN"),
             ],
